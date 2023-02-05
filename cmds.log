@@ -1,0 +1,224 @@
+    1  sudo_root apt update
+    2  sudo apt update
+    3  sudo apt install ubuntu-desktop
+    4  sudo dpkg --configure -a
+    5  sudo apt install ubuntu-desktop
+    6  sudo reboot
+    7  sudo apt install spice-vdagent spice-webdavd
+    8  sudo apt install spice-vdgent
+    9  apt-get install spice-*
+   10  sudo i-
+   11  apt-get install spice-*
+   12  root
+   13  sudo apt-get update -y
+   14  sudo apt-get install -y spice-vdagent
+   15  ./clion.sh
+   16  /clion.sh
+   17  clion.sh
+   18  ~/.config/JetBrains/CLion2022.3
+   19  .config/JetBrains/CLion2022.3
+   20  sudo apt install gcc
+   21  sudo apt install make
+   22  sudo snap install clion --classic
+   23  sudo snap install clion --classic --edge
+   24  clion.sh
+   25  sudo snap install clion --classic
+   26  sudo apt install default-jre
+   27  ./clion-2022.3.2/bin/clion.sh
+   28  ./clion.sh
+   29  clion
+   30  syspath
+   31  clion
+   32  sudo dnf install git-all
+   33  sudo apt install git-all
+   34  sudo apt-get install install-info
+   35  tar -zxf git-2.8.0.tar.gz
+   36  git clone git://git.kernel.org/pub/scm/git/git.git
+   37  sudo make install install-doc install-html install-info
+   38  pwd
+   39  cd~
+   40  cd ~
+   41  cd Desktop/
+   42  ls -latr ; mkdir cs149 ; cd cs149
+   43  git init
+   44  git remote add origin https://github.com/sofiesilva0223/cs149_Sofia-Silva.git
+   45  git config --global user.email “sofiasilva0223@gmail.com”
+   46  git config --global user.name "sofiesilva0223"
+   47  mkdir WTest
+   48  cd WTest
+   49  git add
+   50  git add . 
+   51  wget -O out.pdf https://tinyurl.com/yy94jltt
+   52  ls -latr
+   53  history > cmds.log
+   54  git add cmds.log *.c
+   55  git ass cmds.log newtest.c
+   56  git add cmds.log newtest.c
+   57  git commit -m "First commit" -a
+   58  git branch
+   59  git push -u origin master
+   60  git push -u origin main
+   61  git status
+   62  git add newtest.c
+   63  git staus
+   64  git status
+   65  git add
+   66  git add.
+   67  git add . 
+   68  newtest.c
+   69  git add . newtest.c 
+   70  git status
+   71  git commit -m "test commit"
+   72  touch newtest.c
+   73  git add . newtest.c
+   74  git status
+   75  git pull
+   76  git branch --set-upstream-to=origin/<branch> master
+   77  git-pull(1)
+   78  git pull <remote> <branch>
+   79  git branch -M main
+   80  git status
+   81  git push -u origin master
+   82  git push - origin main
+   83  echo "# cs149_Sofia-Silva" >> README.md
+   84  git init
+   85  git add README.md
+   86  git commit -m "first commit"
+   87  git branch -M main
+   88  git remote add origin https://github.com/sofiesilva0223/cs149_Sofia-Silva.git
+   89  git push -u origin main
+   90  git branch
+   91  git branch newTestingBranch
+   92  git status
+   93  git add cmds.log
+   94  git add newtest.c
+   95  git add out.pdf
+   96  git status
+   97  git push -u origin main
+   98  git commit -m "Your message about the commit"
+   99  git branch
+  100  git checkout main
+  101  git push
+  102  mkdir WS1
+  103  cd WS1
+  104  gedit 1.15_LAB.c
+  105  ls
+  106  cd Desktop
+  107  cd Desktop/cs146
+  108  cd cs146
+  109  gcc 1.15_LAB.c
+  110  ./a.out
+  111  gcc 1.16_LAB.c
+  112  ./a.out
+  113  gcc 1.18_LAB.c
+  114  ./a.out
+  115  gcc 1.19_LAB.c
+  116  ./a.out
+  117  gcc 1.20_LAB.c
+  118  ./a.out
+  119  history > cmds.log
+  120  git add cmds.log *.c
+  121  git status
+  122  git restore --staged 1.17_LAB.c
+  123  git status
+  124  git commit -m "Contains c files 1.15,16,18,19,20 and cmds.log file for these problems"
+  125  git push -u origin main
+  126  git push main
+  127  git pull
+  128  git pull main
+  129  git pull master
+  130  git branch --set-upstream-to=origin/<branch> main
+  131  git branch
+  132  git push -u origin master
+  133  git push -u origin main
+  134  git pull -u origin main
+  135  git pull origin main
+  136  git config pull.rebase false
+  137  git pull origin main
+  138  git push origin main
+  139  git merge main
+  140  git status
+  141  git branch
+  142  gcc 1.17_LAB.c -lm
+  143  ./a.out
+  144  gcc 1.15_LAB.c
+  145  ls
+  146  ./a/out
+  147  ./a.out
+  148  gcc 1.16_LAB.c
+  149  gedit 1.16_LAB.c
+  150  gcc 1.16_LAB.c
+  151  ./a.out
+  152  geit 1.17_LAB.c
+  153  gedit 1.17_LAB.c
+  154  gcc 1.17_LAB.c
+  155  ./a.out
+  156  gcc 1.17_LAB.c
+  157  gedit 1.18_LAB.c
+  158  gcc 1.18_LAB.c
+  159  ./a.out
+  160  gedit 1.19_LAB.c
+  161  gcc 1.19_LAB.c
+  162  ./a.out
+  163  gedit 1.20_LAB.c
+  164  gcc 1.20_LAB.c
+  165  ./a.out
+  166  gcc 1.17_LAB.c -lm 
+  167  ./a.out
+  168  pwd
+  169  cd ~
+  170  cd Desktop/
+  171  ls -latr; mkdir cs149
+  172  cd cs149
+  173  mkdir WS1
+  174  cd WS1
+  175  git add 1.15_LAB.c
+  176  git add 1.16_LAB.c
+  177  git add 1.18_LAB.c
+  178  git add 1.19_LAB.c
+  179  git add 1.20_LAB.c
+  180  git status
+  181  git add 1.17_LAB.c
+  182  git status
+  183  gcc 1.17_LAB.c -lm
+  184  ./a.out
+  185  gcc 1.17_LAB.c-lm
+  186  gcc 1.17_LAB.c -lm
+  187  gedit 1.17_LAB.c-lm
+  188  gcc 1.17_LAB.c-lm
+  189  gcc 1.17_LAB.c -o -lm
+  190  gcc 1.17_LAB.c -lm
+  191  ./a.out
+  192  git init
+  193  git branch -m WS1
+  194  branch
+  195  echo "# cs149_Sofia.S_Aden.M" >> README.md
+  196  git init
+  197  git add README.md
+  198  git commit -m "first commit"
+  199  git branch -M main
+  200  git remote add origin git@github.com:sofiesilva0223/cs149_Sofia.S_Aden.M.git
+  201  git push -u origin main
+  202  ls -latr ; mkdir cs149 ; cd cs149
+  203  git init
+  204  git config --global user.email “sofiasilva0223@gmail.com”
+  205  git config --global user.name “sofiesilva0223”
+  206  mkdir WS1
+  207  cd WS1
+  208  git add 1.15_LAB.c
+  209  git status
+  210  git checkout WS1
+  211  git branch
+  212  gcc 1.15_LAB.c
+  213  ./a.out
+  214  gcc 1.16_LAB.c
+  215  ./a.out
+  216  gcc 1.17_LAB.c -lm
+  217  ./a.out
+  218  gcc 1.18_LAB.c
+  219  ./a.out
+  220  gcc 1.19_LAB.c
+  221  ./a.out
+  222  gcc 1.20_LAB.c
+  223  ./a.out
+  224  history > cmds.log
