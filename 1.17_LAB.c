@@ -1,3 +1,11 @@
+/**
+ * Description: Prompts user for two integers and prints a right-facing arrow using the integers.
+ * Author names: Aden Mengistie & Sofia Silva
+ * Author emails: aden.mengistie@sjsu.edu, sofia.silva@sjsu.edu
+ * Last modified date: 02/05/2023
+ * Creation date: 02/02/2023
+ **/
+ 
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>

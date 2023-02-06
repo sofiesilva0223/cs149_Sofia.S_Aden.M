@@ -222,3 +222,114 @@
   222  gcc 1.20_LAB.c
   223  ./a.out
   224  history > cmds.log
+  225  git add cmds.log *.c
+  226  git status
+  227  git commit -m "Worksheet 1: Activities 1.15,1.16,1.17,1.18,1.19,1.20 & cmds.log" -a 
+  228  git branch
+  229  git push -u origin master
+  230  git push -u origin main
+  231  git pull origin master
+  232  git pull origin main
+  233  git remote add origin git@github.com:sofiesilva0223/cs149_Sofia.S_Aden.M.git
+  234  git branch -M main
+  235  git push -u origin main
+  236  git branch -M main
+  237  git remote add origin git@github.com:sofiesilva0223/cs149_Sofia.S_Aden.M.git
+  238  git push -u origin main
+  239  git push origin main
+  240  git branch main
+  241  git status
+  242  git branch
+  243  git add 1.15_LAB.c
+  244  git add 1.16_LAB.c
+  245  git add 1.17_LAB.c
+  246  git add 1.18_LAB.c
+  247  git add 1.19_LAB.c
+  248  git add 1.20_LAB.c
+  249  git add cmds.log
+  250  git status
+  251  git commit -m “worksheet 1 c files and cmds.log file”
+  252  git merge main
+  253  git remote add origin git@github.com:sofiesilva0223/cs149_Sofia.S_Aden.M.git
+  254  git push -u origin main
+  255  git status
+  256  git add
+  257  git add .
+  258  git status
+  259  git add cmds.log
+  260  git status
+  261  git merge main
+  262  git config --global user.email “sofiasilva0223@gmail.com”
+  263  git config --global user.name “sofiesilva0223”
+  264  git status
+  265  git add .
+  266  git status
+  267  git branch -M main
+  268  git push -u origin main
+  269  git push main
+  270  git push master
+  271  git branhc
+  272  git branch
+  273  get init WS1
+  274  git init WS1
+  275  gcc 1.17_LAB.c -lm
+  276  ./a.out
+  277  git config --global user.email “sofiasilva0223@gmail.com”
+  278  git config --global user.name “sofiesilva0223”
+  279  git branch
+  280  git merge
+  281  git remote add origin git@github.com:sofiesilva0223/cs149_Sofia.S_Aden.M.git
+  282  git merge * main
+  283  git status
+  284  git push -u origin main
+  285  git remote add origin git@github.com:sofiesilva0223/cs149_Sofia.S_Aden.M.git
+  286  git branch -M main
+  287  git push -u origin main
+  288  git pull
+  289  git push
+  290  git push --set-upstream origin main
+  291  git rebase
+  292  git rebase main
+  293  git log
+  294  git fetch
+  295  git checkout cs 149
+  296  git checkout main
+  297  pwd
+  298  git init
+  299  git remote add origin git@github.com:sofiesilva0223/cs149_Sofia.S_Aden.M.git
+  300  git status
+  301  git config --global user.email "sofiasilva0223@gmail.com"
+  302  git config --global user.name "sofiesilva0223"
+  303  mkdir WS1
+  304  cd WS1
+  305  git add .
+  306  ls -latr
+  307  git commit -m "ws1 activites" -a
+  308  git branch
+  309  git push -u origin master
+  310  git push -u origin main
+  311  git remote add origin https://github.com/sofiesilva0223/cs149_Sofia.S_Aden.M.git
+  312  git branch -M main
+  313  git push -u origin main
+  314  git remote -v
+  315  git remote rm
+  316  git remove -v
+  317  git remote rm origin
+  318  git remote -v
+  319  git branch -M main
+  320  git remote add origin https://github.com/sofiesilva0223/cs149_Sofia.S_Aden.M.git
+  321  git push -u origin main
+  322  git status
+  323  gcc 1.15_LAB.c
+  324  ./a.out
+  325  gcc 1.16_LAB.c
+  326  ./a.out
+  327  gcc 1.17_LAB.c -lm
+  328  ./a.out
+  329  gcc 1.18_LAB.c
+  330  ./a.out
+  331  gcc 1.19_LAB.c
+  332  ./a.out
+  333  gcc 1.20_LAB.c
+  334  ./a.out
+  335  history > cmds.log
