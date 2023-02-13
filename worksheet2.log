@@ -1,0 +1,51 @@
+  324  date
+  325  pwd
+  326  ls -latr
+  327  echo $
+  328  man ps
+  329  ps aux
+  330  history > worksheet2.log
+  331  head worksheet2.log
+  332  tail worksheet2.log
+  333  cat worksheet2.log
+  334  cat history.log
+  335  history >fullhist.log
+  336  cat fullhist.log
+  337  history > fullHist.log
+  338  git branch
+  339  history < test.log
+  340  history > test.log
+  341  git branch worksheet2
+  342  git add 2.25_LAB.c
+  343  git add 2.29_LAB.c
+  344  git add 2.32_LAB.c
+  345  git add 2.34_LAB.c
+  346  git add 3.22_LAB.c
+  347  git status
+  348  k
+  349  history > worksheet2.log
+  350  gcc 2.25_LAB.c
+  351  ./a.out
+  352  gcc 2.29_LAB.c
+  353  gcc 2.29_LAB.c -lm
+  354  ./a.out
+  355  gcc 2.32_LAB.c
+  356  ./a.out
+  357  gcc 2.34_LAB.c
+  358  ./a.out
+  359  gcc 3.22_LAB.c
+  360  ./a.out
+  361  git branch
+  362  git branch checkout worksheet2
+  363  git branch
+  364  git checkout worksheet2
+  365  git status
+  366  date
+  367  pwd
+  368  echo $?
+  369  man ps
+  370  ps aux
+  371  top
+  372  history > worksheet2.log
+  373  sed '1,300d' worksheet2.log > worksheet2.log
+  374  history > worksheet2.log
