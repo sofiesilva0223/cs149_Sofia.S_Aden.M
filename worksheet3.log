@@ -1,0 +1,31 @@
+  435  git clone -m worksheet2 https://github.com/sofiesilva0223/cs149_Sofia.S_Aden.M.git 
+  436  git clone -b worksheet1 https://github.com/sofiesilva0223/cs149_Sofia.S_Aden.M.git 
+  437  gcc 4.14_LAB.c
+  438  ./a.out
+  439  gcc 4.16_LAB.c
+  440  ./a.out
+  441  gcc 5.16_LAB.c
+  442  ./a.out
+  443  gcc 5.17_LAB.c
+  444  ./a.out 
+  445  gcc 5.18_LAB.c
+  446  ./a.out
+  447  gcc 5.21_LAB.c -pthread
+  448  ./a.out
+  449  gcc 5.22_LAB.c
+  450  ./a.out
+  451  gcc 5.23_LAB.c
+  452  ./a.out
+  453  wget https://github.com/torvalds/linux/archive/master.zip
+  454  unzip master.zip
+  455  cd linux-master
+  456  pwd
+  457  alias l='ls -latr'
+  458  l
+  459  find . -name mem.c
+  460  find . -name mem.c | xargs head
+  461  find . -name mem.c | xargs grep 86
+  462  cd ..
+  463  history > worksheet3.log 
+  464  head worksheet3.log
+  465  history >full.log
