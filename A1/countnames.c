@@ -5,6 +5,8 @@
 #define NUM_NAME 100
 #define NAME_LENGTH 30
 
+void display(int name, char pString[100][30], int pInt[100]);
+
 int main(int argc, char *argv[]) {
 
     char names[NUM_NAME][NAME_LENGTH] = {'\0'};
@@ -27,7 +29,7 @@ int main(int argc, char *argv[]) {
     while(fgets(temp,NAME_LENGTH,fp)){
         lineNumber++;
         if(strcmp("\n",temp) == 0 || strcmp(" \n",temp) == 0){
-            fprintf(stderr,"Warning - Line %d is empty.", lineNumber);
+            fprintf(stderr,"Warning - Line %d is empty.\n", lineNumber);
         }
         else{
             char *newlineCheck = strchr(temp,'\n');
@@ -52,5 +54,13 @@ int main(int argc, char *argv[]) {
         }
     }
     fclose(fp);
+    display(numUniqueName, names, count);
     return 0;
 }
+
+void display(int numName, char name[100][30], int num[100]) {
+
+    for (int i = 0; i < numName; i++)
+        printf("%s: %d\n",name[i],num[i]);
+}
+
