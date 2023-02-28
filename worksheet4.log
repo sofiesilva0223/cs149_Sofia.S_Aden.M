@@ -1,0 +1,21 @@
+  487  gcc 6.20_LAB.c
+  488  ./a.out 6.20_LAB.c
+  489  gcc 6.30_LAB.c
+  490  ./a.out 6.30_LAB.c
+  491  wget http://www.apuebook.com/src.3e.tar.gz
+  492  gunzip src.3e.tar.gz
+  493  tar xvf src.3e.tar
+  494  cd apue.3e
+  495  cd proc
+  496  make all
+  497  ./fork1
+  498  ./fork2
+  499  pwd
+  500  pstree
+  501  ps -a -f -x
+  502  ps -a -f -x | more
+  503  top
+  504  man kill
+  505  echo $?
+  506  echo $$
+  507  history > this.log
