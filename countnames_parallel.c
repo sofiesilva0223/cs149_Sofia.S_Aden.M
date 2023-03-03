@@ -1,56 +1,75 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #define NUM_NAME 100
 #define NAME_LENGTH 30
 
-int main(int argc, char *argv[]) {
+typedef struct unique_name unique_name;
+struct unique_name{
+    char name[NAME_LENGTH];
+    int count;
+};
 
-    char names[NUM_NAME][NAME_LENGTH] = {'\0'};
-    int count[NUM_NAME] = {0};
+int main(int argc, char *argv[]) {
+    struct unique_name names[NUM_NAME];
     char temp[NAME_LENGTH];
     int numUniqueName = 0;
+    int pipe(int pFds1[2]);
+    int pipe(int pFds2[2]);
 
-    if(argc != 2) {
+    if(argc < 2) {
         printf("Unable to execute - check command line\n");
         exit(1);
     }
+    for(int i = 1; i < argc; i++){
+        pid_t child = fork();
 
-    FILE* fp = fopen(argv[1], "r");
-    if(fp == NULL){
-        printf("Unable to open file.\n");
-        exit(1);
-    }
+        if(child < 0)
+            printf("Error with fork\n");
+        else if(child == 0){
+            FILE* fp = fopen(argv[i],"r")
+            if(fp == NULL){
+                printf("Unable to open %s.\n", argv[i]);
+                exit(1);
+            }
+            while(fgets(temp,NAME_LENGTH,fp)) {
+                if (strcmp("\n", temp) == 0 || strcmp(" \n", temp) == 0) {
+                    fprintf(stderr, "Warning - file %s line %d is empty.", _FILE_, _LINE_);
+                } else {
+                    char *newlineCheck = strchr(temp, '\n');
+                    if (newlineCheck)
+                        *newlineCheck = '\0';
 
-    int lineNumber = 0;
-    while(fgets(temp,NAME_LENGTH,fp)){
-        lineNumber++;
-        if(strcmp("\n",temp) == 0 || strcmp(" \n",temp) == 0){
-            fprintf(stderr,"Warning - Line %d is empty.", lineNumber);
+                    int index = 0;
+                    while (index < NUM_NAME) {
+                        if (index >= numUniqueName) {
+                            strcpy(names[index].name, temp);
+                            numUniqueName++;
+                            names[index].count++;
+                            index = NUM_NAME;
+                        } else if (strcmp(names[index].name, temp) == 0) {
+                            names[index].count++;
+                            index = NUM_NAME;
+                        } else
+                            index++;
+                    }
+                }
+            }
+            write(pFds1[1], names, NUM_NAME*sizeof(unique_name));
+            write(pFds2[1], numUniqueName, sizeof(numUniqueName));
         }
         else{
-            char *newlineCheck = strchr(temp,'\n');
-            if(newlineCheck)
-                *newlineCheck = '\0';
+            close(pFds1[1]);
+            close(pFds2[1]);
 
-            int i = 0;
-            while(i < NUM_NAME) {
-                if (i >= numUniqueName) {
-                    strcpy(names[i],temp);
-                    numUniqueName++;
-                    count[i]++;
-                    i = NUM_NAME;
-                }
-                else if (strcmp(names[i], temp) == 0) {
-                    count[i]++;
-                    i = NUM_NAME;
-                }
-                else
-                    i++;
-            }
+            wait(NULL);
+            read(pFds1[0], names, NUM_NAME*sizeof(unique_name));
+            read(pFds2[0], numUniqueName, sizeof(numUniqueName));
+
         }
+
     }
-    fclose(fp);
     return 0;
 }
