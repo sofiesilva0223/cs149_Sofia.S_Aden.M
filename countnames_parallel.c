@@ -92,8 +92,8 @@ int main(int argc, char *argv[]) {
                 index++;
             }
         }
+        display(names); //call display
     }
-    display(names); //call display
     return 0;
 }
 /**

@@ -13,10 +13,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d09bb0f0-9415-4771-919b-36b393f97849" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/cs149_Sofia.S_Aden.M.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/countnames_parallel" beforeDir="false" afterPath="$PROJECT_DIR$/countnames_parallel" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/countnames_parallel.c" beforeDir="false" afterPath="$PROJECT_DIR$/countnames_parallel.c" afterDir="false" />
     </list>
@@ -101,6 +98,8 @@
       <workItem from="1678062710554" duration="1657000" />
       <workItem from="1678065268354" duration="224000" />
       <workItem from="1678066132249" duration="57000" />
+      <workItem from="1678086522078" duration="21000" />
+      <workItem from="1678115101385" duration="48000" />
     </task>
     <servers />
   </component>
