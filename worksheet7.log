@@ -1,0 +1,10 @@
+  718  cd ~/Desktop/cs149/ws7
+  719  ls | wc
+  720  ls | sort
+  721  ls | sort | wc
+  722  ls -latr /bin/  > a.out
+  723  cat a.out | more
+  724  strace ls
+  725  du -sh .
+  726  df -i
+  727  history > ws7.log
