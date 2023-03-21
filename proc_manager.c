@@ -14,6 +14,8 @@
 
 #define COMMAND_LENGTH 30
 
+void open_files(pid_t child);
+
 int main(int argc, char *argv[]) {
     //declare data
     char *command = (char *)malloc(COMMAND_LENGTH * sizeof(char));
@@ -31,14 +33,15 @@ int main(int argc, char *argv[]) {
             printf("Error with fork for processing command %s.\n", command);
             exit(1);
         } else if (child == 0) {    //child process
-            char *exec_command = {0};
-            char *filename = (char *) malloc(10 * sizeof(char));
-            sprintf(filename,"%d.out",getpid());
-            int file_desc = open(filename, O_RDWR | O_CREAT | O_APPEND, 0777);
-            dup2(file_desc,1);
+            //set argument for execvp
+            char *argument[] = {"/bin/sh", "-c", (char *)command, NULL};
+
+            open_files(child);
             printf("Starting command %d: child %d pid of parent %d\n", count, getpid(), getppid());
-            strtok(exec_command,command);
-            execvp(strtok(exec_command," "),  command);
+            fflush(stdout);
+            execvp(argument[0],argument);
+
+            //only happens if execvp fails
             fprintf(stderr, "Invalid command: %s\n",command);
             exit(2);    //exit child process
         }
@@ -46,15 +49,28 @@ int main(int argc, char *argv[]) {
     //parent process
     if(child > 0) {
         pid_t c;
-        //int status;
-
+        int status;
+    
         //loop until all child process are exited
         while ((c = wait(NULL)) != -1) {
-            char *filename = (char *) malloc(10 * sizeof(char));
-            sprintf(filename,"%d.err",c);
-            int file_desc = open(filename, O_RDWR | O_CREAT | O_APPEND, 0777);
-            dup2(file_desc,2);
+            printf("Finished child %d pid of parent %d\n", c, getpid());
+            fflush(stdout);
         }
     }
     return 0;
+}
+
+void open_files(pid_t child){
+    char *filename_out = (char *) malloc(10 * sizeof(char));
+    char *filename_err = (char *) malloc(10 * sizeof(char));
+
+    sprintf(filename_out,"%d.out",getpid());
+    int file_desc1 = open(filename_out, O_RDWR | O_CREAT | O_APPEND, 0777);
+    close(1);
+    dup2(file_desc1,1);
+
+    sprintf(filename_err,"%d.err",getpid());
+    int file_desc2 = open(filename_err, O_RDWR | O_CREAT | O_APPEND, 0777);
+    close(2);
+    dup2(file_desc2,2);
 }
