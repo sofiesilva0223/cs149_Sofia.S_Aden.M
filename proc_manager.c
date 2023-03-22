@@ -14,13 +14,16 @@
 #include <sys/wait.h>
 
 #define COMMAND_LENGTH 30
+#define FILENAME_LENGTH 10
 
 //void parse_argument(char *command, char *argument[]);
-void open_files(pid_t child);
+void open_files(pid_t child, char *filename_out, char *filename_err);
 
 int main(int argc, char *argv[]) {
     //declare data
     char *command = (char *)malloc(COMMAND_LENGTH * sizeof(char));
+    char *filename_out = (char *) malloc(FILENAME_LENGTH * sizeof(char));
+    char *filename_err = (char *) malloc(FILENAME_LENGTH * sizeof(char));
     pid_t child;
 
     //traverse trough each file
@@ -36,10 +39,10 @@ int main(int argc, char *argv[]) {
             exit(1);
         } else if (child == 0) {    //child process
             //set argument for execvp
-            char *argument[] = {"sh", "-c", (char *)command, NULL};
+            char *argument[] = {"/bin/sh", "-c", (char *)command, NULL};
 
             //parse_argument(command,argument);
-            open_files(getpid());
+            open_files(getpid(), filename_out, filename_err);
 
             printf("Starting command %d: child %d pid of parent %d\n", count, getpid(), getppid());
             fflush(stdout);
@@ -57,14 +60,19 @@ int main(int argc, char *argv[]) {
     
         //loop until all child process are exited
         while ((c = wait(&status)) != -1) {
-            open_files(c);
+            open_files(c, filename_out, filename_err);
             printf("Finished child %d pid of parent %d\n",c,getpid());
             fflush(stdout);
+
             if(WIFEXITED(status))
                 fprintf(stderr, "Exited with exitcode = %d\n", WEXITSTATUS(status));
             else if(WIFSIGNALED(status))
                 fprintf(stderr, "Killed with signal %d\n", WTERMSIG(status));
         }
+        free(filename_out);
+        free(filename_err);
+        filename_out = NULL;
+        filename_err = NULL;
     }
     return 0;
 }
@@ -78,11 +86,7 @@ int main(int argc, char *argv[]) {
     }
     *argument = '\0';
 }*/
-
-void open_files(pid_t child){
-    char *filename_out = (char *) malloc(10 * sizeof(char));
-    char *filename_err = (char *) malloc(10 * sizeof(char));
-
+void open_files(pid_t child, char *filename_out, char *filename_err){
     sprintf(filename_out,"%d.out",child);
     int file_desc1 = open(filename_out, O_RDWR | O_CREAT | O_APPEND, 0777);
     close(1);
