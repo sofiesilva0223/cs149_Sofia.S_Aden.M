@@ -10,6 +10,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/types.h>
 #include <sys/wait.h>
 
 #define COMMAND_LENGTH 30
@@ -36,7 +37,7 @@ int main(int argc, char *argv[]) {
             //set argument for execvp
             char *argument[] = {"/bin/sh", "-c", (char *)command, NULL};
 
-            open_files(child);
+            open_files(getpid());
             printf("Starting command %d: child %d pid of parent %d\n", count, getpid(), getppid());
             fflush(stdout);
             execvp(argument[0],argument);
@@ -52,9 +53,14 @@ int main(int argc, char *argv[]) {
         int status;
     
         //loop until all child process are exited
-        while ((c = wait(NULL)) != -1) {
-            printf("Finished child %d pid of parent %d\n", c, getpid());
+        while ((c = wait(&status)) != -1) {
+            open_files(c);
+            printf("Finished child %d pid of parent %d\n",c,getpid());
             fflush(stdout);
+            if(WIFEXITED(status))
+                fprintf(stderr, "Exited with exitcode = %d\n", WEXITSTATUS(status));
+            else if(WIFSIGNALED(status))
+                fprintf(stderr, "Killed with signal %d\n", WTERMSIG(status));
         }
     }
     return 0;
@@ -64,12 +70,12 @@ void open_files(pid_t child){
     char *filename_out = (char *) malloc(10 * sizeof(char));
     char *filename_err = (char *) malloc(10 * sizeof(char));
 
-    sprintf(filename_out,"%d.out",getpid());
+    sprintf(filename_out,"%d.out",child);
     int file_desc1 = open(filename_out, O_RDWR | O_CREAT | O_APPEND, 0777);
     close(1);
     dup2(file_desc1,1);
 
-    sprintf(filename_err,"%d.err",getpid());
+    sprintf(filename_err,"%d.err",child);
     int file_desc2 = open(filename_err, O_RDWR | O_CREAT | O_APPEND, 0777);
     close(2);
     dup2(file_desc2,2);
