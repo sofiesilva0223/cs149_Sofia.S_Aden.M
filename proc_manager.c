@@ -15,6 +15,7 @@
 
 #define COMMAND_LENGTH 30
 
+//void parse_argument(char *command, char *argument[]);
 void open_files(pid_t child);
 
 int main(int argc, char *argv[]) {
@@ -35,12 +36,14 @@ int main(int argc, char *argv[]) {
             exit(1);
         } else if (child == 0) {    //child process
             //set argument for execvp
-            char *argument[] = {"/bin/sh", "-c", (char *)command, NULL};
+            char *argument[] = {"sh", "-c", (char *)command, NULL};
 
+            //parse_argument(command,argument);
             open_files(getpid());
+
             printf("Starting command %d: child %d pid of parent %d\n", count, getpid(), getppid());
             fflush(stdout);
-            execvp(argument[0],argument);
+            execvp(*argument,argument);
 
             //only happens if execvp fails
             fprintf(stderr, "Invalid command: %s\n",command);
@@ -65,6 +68,16 @@ int main(int argc, char *argv[]) {
     }
     return 0;
 }
+/*void parse_argument(char *command, char *argument[]){
+    while(*command != '\0'){
+        if(*command == ' ') {
+            *command++ = '\0';
+            *argument++ = command;
+        }
+        command++;
+    }
+    *argument = '\0';
+}*/
 
 void open_files(pid_t child){
     char *filename_out = (char *) malloc(10 * sizeof(char));
