@@ -16,12 +16,13 @@
 #define COMMAND_LENGTH 30
 #define FILENAME_LENGTH 10
 
-//void parse_argument(char *command, char *argument[]);
+void parse_argument(char *command, char **argument);
 void open_files(pid_t child, char *filename_out, char *filename_err);
 
 int main(int argc, char *argv[]) {
     //declare data
     char *command = (char *)malloc(COMMAND_LENGTH * sizeof(char));
+    char **argument = (char **) malloc(COMMAND_LENGTH * sizeof(char *));    //set argument for execvp
     char *filename_out = (char *) malloc(FILENAME_LENGTH * sizeof(char));
     char *filename_err = (char *) malloc(FILENAME_LENGTH * sizeof(char));
     pid_t child;
@@ -38,10 +39,7 @@ int main(int argc, char *argv[]) {
             printf("Error with fork for processing command %s.\n", command);
             exit(1);
         } else if (child == 0) {    //child process
-            //set argument for execvp
-            char *argument[] = {"/bin/sh", "-c", (char *)command, NULL};
-
-            //parse_argument(command,argument);
+            parse_argument(command,argument);
             open_files(getpid(), filename_out, filename_err);
 
             printf("Starting command %d: child %d pid of parent %d\n", count, getpid(), getppid());
@@ -69,23 +67,26 @@ int main(int argc, char *argv[]) {
             else if(WIFSIGNALED(status))
                 fprintf(stderr, "Killed with signal %d\n", WTERMSIG(status));
         }
+        free(command);
+        free(argument);
         free(filename_out);
         free(filename_err);
-        filename_out = NULL;
-        filename_err = NULL;
+        
+        close(1);
+        close(2);
     }
     return 0;
 }
-/*void parse_argument(char *command, char *argument[]){
-    while(*command != '\0'){
-        if(*command == ' ') {
-            *command++ = '\0';
-            *argument++ = command;
-        }
-        command++;
+void parse_argument(char *command, char **argument){
+    int i = 0;
+    char delimit[]= " \t\n";
+
+    argument[i] = strtok(command, delimit);
+    while (argument[i] != NULL){
+        i++;
+        argument[i] = strtok(NULL, delimit);
     }
-    *argument = '\0';
-}*/
+}
 void open_files(pid_t child, char *filename_out, char *filename_err){
     sprintf(filename_out,"%d.out",child);
     int file_desc1 = open(filename_out, O_RDWR | O_CREAT | O_APPEND, 0777);
