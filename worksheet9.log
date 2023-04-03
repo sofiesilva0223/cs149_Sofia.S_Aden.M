@@ -1,0 +1,7 @@
+  910  gcc -ansi -I../include -DLINUX -D_GNU_SOURCE -Wall -o sigusr sigusr.c -L../lib -lapue
+  911  ./sigusr &
+  912  kill -SIGUSR1 46182
+  913  kill -SIGUSR2 46182
+  914  kill -SIGCONT 46182
+  915  kill -9 46182
+  916  history > full.log
