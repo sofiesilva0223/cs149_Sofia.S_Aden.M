@@ -292,13 +292,13 @@ int main(int argc, char *argv[]) {
          *exceeds number of commands read, if so reallocate.
          */
         if(count >= allocatedElements) {
-            PRINT_COMMANDS(COMMAND_NODE_HEAD);  //print content in LinkedList
             allocatedElements = allocatedElements + ALLOCATION_ELEMENT;     //number of elements allocated thus far
             command = (char **) realloc(command, (allocatedElements) * sizeof(char *));
         }
         //allocate for command input
         command[count] = (char *) malloc(BUFFER_LENGTH * sizeof (char));
     }
+    PRINT_COMMANDS(COMMAND_NODE_HEAD);  //print content in LinkedList
     //call free_commands to free memory command input and command array
     free_commands(command, count);
     FREE_LIST();    //free LinkedList
