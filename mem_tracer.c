@@ -1,148 +1,270 @@
 /**
- * Description:
+ * Description: Traces the functions that allocates, reallocates, and frees memory.
+ * This is used to ensure that there is no memory leak within the program.
  * Author names: Aden Mengistie & Sofia Silva
  * Author emails: aden.mengistie@sjsu.edu, sofia.silva@sjsu.edu
  * Last modified date: 03/24/2023
- * Creation date: 04/01/2023
+ * Creation date: 04/09/2023
  **/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 
-#define ALLOCATION_VALUE 10
-#define COMMAND_LENGTH 30
+#define ALLOCATION_ELEMENT 10
+#define BUFFER_LENGTH 100
 #define TRACE_FILENAME "memtrace.out"
 
-typedef struct COMMAND_NODE{
-    char *command;
-    int index;
-    struct  COMMAND_NODE *next;
-}COMMAND_NODE;
+void free_commands(char **commands, int count);
 
+/**
+ * COMMAND_NODE struct is a linked list of pointers to
+ * command and it's index. COMMAND_NODE_HEAD is the head
+ * of the linked list.
+ */
+typedef struct COMMAND_NODE{
+    char *command;                  //ptr to the command
+    int index;                      //index of the command
+    struct  COMMAND_NODE *next;    //ptr to next COMMAND_NODE
+}COMMAND_NODE;
+/**
+ * TRACE_NODE struct is a linked list of pointers to function
+ * identifiers. TRACE_NODE_TOP is the head of the list
+ * (top of the stack).
+ */
 typedef struct TRACE_NODE{
-    char *functionId;
-    struct TRACE_NODE *next;
+    char *functionId;           //ptr to function identifier (function name)
+    struct TRACE_NODE *next;    // ptr to the next TRACE_NODE
 }TRACE_NODE;
 
-static TRACE_NODE  *TRACE_NODE_TOP = NULL;
-static COMMAND_NODE *COMMAND_NODE_HEAD = NULL;
+static TRACE_NODE  *TRACE_NODE_TOP = NULL;      //ptr to the top of the stack
+static COMMAND_NODE *COMMAND_NODE_HEAD = NULL;  //ptr to the head od the linked list
 
-void *allocate_memory(int size);
-void *reallocate_memory(void *p, int size);
-void free_memory(void *p);
-void parse_argument(char *command, char **argument);
-
+/**
+ * This function push the function identifier passed through the
+ * char *p. It trace the sequence of the function calls. The "global"
+ * string is the start of the function call trace.
+ */
 void PUSH_TRACE(char *p){
     TRACE_NODE *traceNode;
+    static char glob[] = "global";
 
-    if(TRACE_NODE_TOP == NULL){
-        TRACE_NODE_TOP = (TRACE_NODE *) allocate_memory(sizeof(TRACE_NODE));
-
-        if(TRACE_NODE_TOP == NULL) {
+    //checks if TRACE_NODE_TOP is NULL
+    if(TRACE_NODE_TOP == NULL) {
+        //allocate memory for TRACE_NODE_TOP
+        TRACE_NODE_TOP = (TRACE_NODE *) malloc(sizeof(TRACE_NODE));
+        //failed during memory allocation
+        if (TRACE_NODE_TOP == NULL) {
             printf("PUSH_TRACE: memory allocation error\n");
             exit(1);
         }
-        TRACE_NODE_TOP->functionId = "global";
-        TRACE_NODE_TOP->next = NULL;
-
-        traceNode = (TRACE_NODE *) allocate_memory(sizeof(TRACE_NODE));
-        if(traceNode == NULL) {
-            printf("PUSH_TRACE: memory allocation error\n");
-            exit(1);
-        }
-        traceNode->functionId = p;
-        traceNode->next = TRACE_NODE_TOP;
-        TRACE_NODE_TOP = traceNode;
+        TRACE_NODE_TOP->functionId = glob;  //assign TRACE_NODE_TOP function identifier to glob ("global")
+        TRACE_NODE_TOP->next = NULL;        //assign TRACE_NODE_TOP next to NULL
     }
+    //allocate memory for traceNode
+    traceNode = (TRACE_NODE *) malloc(sizeof(TRACE_NODE));
+    //failed during memory allocation
+    if(traceNode == NULL) {
+        printf("PUSH_TRACE: memory allocation error\n");
+        exit(1);
+    }
+    //push to the top of the stack
+    traceNode->functionId = p;          //assign traceNode function identifier to p (passed through parameter)
+    traceNode->next = TRACE_NODE_TOP;   //assign traceNode next to TRACE_NODE_TOP
+    TRACE_NODE_TOP = traceNode;         //assign TRACE_NODE_TOP to traceNode
 }
+/**
+ * This function pops the TRACE_NODE_TOP (top of the  stacks) and
+ * frees the memory. Then assign TRACE_NODE_TOP next to TRACE_NODE_TOP
+ */
 void POP_TRACE(){
     TRACE_NODE *traceNode;
-    traceNode = TRACE_NODE_TOP;
-    TRACE_NODE_TOP = traceNode->next;
-    free_memory(traceNode);
+
+    //checks if TRACE_NODE_TOP is NULL
+    if(TRACE_NODE_TOP != NULL) {
+        traceNode = TRACE_NODE_TOP;
+        TRACE_NODE_TOP = traceNode->next;
+        free(traceNode);                //free traceNode ptr
+    }
+}
+/**
+ * This function print (max 50) the sequence of function calls that
+ * are on the stack at this instance. Then return the sequence of function
+ * calls as string (char *).
+ */
+char* PRINT_TRACE(){
+    int depth = 50; //max of 50 levels in the stack will be combined in a string
+    int i, j, length;
+    TRACE_NODE *traceNode;
+    static char buf[BUFFER_LENGTH];
+
+    if (TRACE_NODE_TOP == NULL){        //stack not initialized ("global" area)
+        strcpy(buf,"global");   //copy "global" to buf
+        return buf;
+    }
+    /**
+     * Peek at the depth top entries on the stack without exceeding
+     * 100 chars and going past the bottom of the stack.
+     */
+    sprintf(buf,"%s",TRACE_NODE_TOP->functionId);
+    length = strlen(buf);   //length of the string thus far
+
+    for(i = 1, traceNode = TRACE_NODE_TOP->next; traceNode != NULL && i < depth; i++, traceNode = traceNode->next){
+        j = strlen(traceNode->functionId);  //length to be added
+        if((length + j + 1) < 100){     //total length less than 100
+            sprintf((buf + length),":%s",traceNode->functionId);
+            length += j + 1;
+        }
+        else        //length exceeds 100
+            break;
+    }
+    return buf;
+}
+/**
+ * This function REALLOC calls realloc to expand the allocated memory
+ * for command line input. It also prints the sequence of function calls
+ * on the stack using PRINT_TRACE and the address segment assigned when
+ * reallocating.
+ */
+void* REALLOC(void* p, int t, char* file, int line) {
+    FILE *fp;
+    fp = fopen(TRACE_FILENAME,"a");
+    if(fp == NULL){
+        printf("Unable to open file: %s\n",TRACE_FILENAME);
+        exit(1);
+    }
+    p = realloc(p, t);
+    char* fn = strrchr(file,'/') ? strrchr(file,'/') : file;
+    fprintf(fp,"File=\"%s\",Line=%d,Function=%s,Segment reallocation to address %p\n",fn,line,PRINT_TRACE(),p);
+    fflush(fp);
+    fclose(fp);
+    return p;
+}
+/**
+ * This function MALLOC calls malloc to allocate memory for command
+ * line input (initial memory allocation). It also prints the sequence of function calls
+ * on the stack using PRINT_TRACE and the address segment assigned when
+ * reallocating.
+ */
+void* MALLOC(int t, char* file, int line) {
+    FILE *fp;
+    fp = fopen(TRACE_FILENAME,"a");
+    if(fp == NULL){
+        printf("Unable to open file: %s\n",TRACE_FILENAME);
+        exit(1);
+    }
+    void* p = malloc(t);
+    char* fn = strrchr(file,'/') ? strrchr(file,'/') : file;
+    fprintf(fp,"File=\"%s\",Line=%d,Function=%s,Segment allocation to address %p\n",fn,line,PRINT_TRACE(),p);
+    fflush(fp);
+    fclose(fp);
+    return p;
+}
+/**
+ * This function FREE calls free to deallocate memory for the specified
+ * command line input (void* p). It also prints the sequence of function calls
+ * on the stack using PRINT_TRACE and the address segment assigned when
+ * reallocating.
+ */
+void FREE(void* p, char* file, int line) {
+    FILE *fp;
+    //open file
+    fp = fopen(TRACE_FILENAME,"a");
+    if(fp == NULL){ //verify file open properly 
+        printf("Unable to open file: %s\n",TRACE_FILENAME);
+        exit(1);
+    }
+    free(p);
+    char* fn = strrchr(file,'/') ? strrchr(file,'/') : file;
+    fprintf(fp,"File=\"%s\",Line=%d,Function=%s,Segment at address %p deallocated\n",fn,line,PRINT_TRACE(),p);
+    fflush(fp);
+    fclose(fp);
 }
 
+#define realloc(a,b) REALLOC(a,b,__FILE__,__LINE__)
+#define malloc(a) MALLOC(a,__FILE__,__LINE__)
+#define free(a) FREE(a,__FILE__,__LINE__)
+
+void PUSH_COMMAND(char *p, int index){
+    PUSH_TRACE("PUSH_COMMAND");
+    COMMAND_NODE *currentNode;
+
+    if(COMMAND_NODE_HEAD == NULL) {
+        COMMAND_NODE_HEAD = (COMMAND_NODE *) malloc(sizeof(COMMAND_NODE));
+        if (COMMAND_NODE_HEAD == NULL) {
+            printf("PUSH_COMMAND: memory allocation error\n");
+            exit(1);
+        }
+        COMMAND_NODE_HEAD->command = p;
+        COMMAND_NODE_HEAD->index = index;
+        COMMAND_NODE_HEAD->next = NULL;
+    }
+    else{
+        currentNode = (COMMAND_NODE *) malloc(sizeof(COMMAND_NODE));
+        if(currentNode == NULL) {
+            printf("PUSH_COMMAND: memory allocation error\n");
+            exit(1);
+        }
+        currentNode->command = p;
+        currentNode->index = index;
+        currentNode->next = COMMAND_NODE_HEAD;
+        COMMAND_NODE_HEAD = currentNode;
+    }
+    POP_TRACE();
+}
+void PRINT_COMMANDS(COMMAND_NODE *current){
+    PUSH_TRACE("PRINT_COMMANDS");
+    if(current != NULL) {
+        PRINT_COMMANDS(current->next);
+        printf("Index: %d, Command: %s\n", current->index, current->command);
+    }
+    POP_TRACE();
+}
+void FREE_LIST(){
+    PUSH_TRACE("FREE_LIST");
+    while(COMMAND_NODE_HEAD != NULL){
+        COMMAND_NODE *currentNode = COMMAND_NODE_HEAD;
+        COMMAND_NODE_HEAD = currentNode->next;
+        free(currentNode);
+    }
+    POP_TRACE();
+}
+void free_commands(char **commands, int count){
+    PUSH_TRACE("free_commands");
+    for(int i = 0; i <= count; i++)
+        free(commands[i]);
+    free(commands);
+    POP_TRACE();
+}
 int main(int argc, char *argv[]) {
+    PUSH_TRACE("main");
     //declare data
-    int file_desc = open(TRACE_FILENAME, O_RDWR | O_CREAT | O_APPEND, 0777);
+    int allocatedElements = 0;
     char **command;
-    char **argument;
-    pid_t child;
 
-    command = (char **)allocate_memory(ALLOCATION_VALUE);
-    argument = (char **)allocate_memory(ALLOCATION_VALUE);
-
+    command = (char **) malloc(ALLOCATION_ELEMENT * sizeof (char *));
+    allocatedElements = ALLOCATION_ELEMENT;
     //traverse trough each file
     int count = 0;
-    while (fgets(command[count], COMMAND_LENGTH, stdin)) {
-        if(*command[strlen(command)-1] == '\n')
-           *command[strlen(command)-1] = 0;
+    command[count] = (char *) malloc(BUFFER_LENGTH * sizeof (char));
+    while (fgets(command[count], BUFFER_LENGTH, stdin)) {
+        char *temp = strchr(command[count],'\n');
+        if(temp != NULL)
+           temp = '\0';
+
+        PUSH_COMMAND(command[count],count + 1);
         count++;
-
-        child = fork();     //fork a child
-        if (child < 0) {    //if there is an error with fork exit
-            printf("Error with fork for processing command %s.\n", command[count-1]);
-            exit(1);
-        } else if (child == 0) {    //child process
-            parse_argument(command[count-1],argument);
-            execvp(*argument,argument);
-
-            //only happens if execvp fails
-            fprintf(stderr, "Invalid command: %s\n",command);
-            exit(2);    //exit child process
+        if(count >= allocatedElements) {
+            PRINT_COMMANDS(COMMAND_NODE_HEAD);
+            allocatedElements = allocatedElements + ALLOCATION_ELEMENT;
+            command = (char **) realloc(command, (allocatedElements) * sizeof(char *));
         }
+        command[count] = (char *) malloc(BUFFER_LENGTH * sizeof (char));
     }
-    //parent process
-    if(child > 0) {
-        pid_t c;
-        int status;
-    
-        //loop until all child process are exited
-        while ((c = wait(&status)) != -1) {
-
-            if(WIFEXITED(status))
-                fprintf(stderr, "Exited with exitcode = %d\n", WEXITSTATUS(status));
-            else if(WIFSIGNALED(status))
-                fprintf(stderr, "Killed with signal %d\n", WTERMSIG(status));
-        }
-    }
+    free_commands(command, count);
+    FREE_LIST();
+    POP_TRACE();    //free main from stack
+    POP_TRACE();    //free global from stack
     return 0;
 }
 
-void *allocate_memory(int size){
-    void *p;
-    FILE *fp = fopen(TRACE_FILENAME,"a");
 
-    p = malloc(size);
-    fprintf("File = /""%s/"", line = %d, Function = %s, segment allocated to address %d\n", TRACE_FILENAME, count, PRINT_TRACE(),p);
-
-    return p;
-}
-void *reallocate_memory(void *p, int size){
-    FILE *fp = fopen(TRACE_FILENAME,"a");
-
-    p = realloc(p,size);
-    fprintf("File = /""%s/"", line = %d, Function = %s, segment reallocated to address %d\n", TRACE_FILENAME, count, PRINT_TRACE(),p);
-
-    return p;
-}
-void free_memory(void *p){
-    FILE *fp = fopen(TRACE_FILENAME,"a");
-
-    free(p);
-    fprintf("File = /""%s/"", line = %d, Function = %s, segment at address %d deallocated\n", TRACE_FILENAME, count, PRINT_TRACE(),p);
-}
-void parse_argument(char *command, char **argument){
-    int i = 0;
-    char delimit[]= " \t\n";
-
-    argument[i] = strtok(command, delimit);
-    while (argument[i] != NULL){
-        i++;
-        argument[i] = strtok(NULL, delimit);
-    }
-}
