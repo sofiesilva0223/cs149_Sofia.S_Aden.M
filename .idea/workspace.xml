@@ -21,12 +21,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dca2611d-f527-4408-88ef-d209bf8b8793" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/cs149_Sofia.S_Aden.M.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mem_tracer" beforeDir="false" afterPath="$PROJECT_DIR$/mem_tracer" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mem_tracer.c" beforeDir="false" afterPath="$PROJECT_DIR$/mem_tracer.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -114,6 +110,9 @@
       <workItem from="1681086265256" duration="1652000" />
       <workItem from="1681088432366" duration="1061000" />
       <workItem from="1681090661710" duration="3052000" />
+      <workItem from="1681142760628" duration="274000" />
+      <workItem from="1681143217418" duration="812000" />
+      <workItem from="1681144525717" duration="1270000" />
     </task>
     <servers />
   </component>
