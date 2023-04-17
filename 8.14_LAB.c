@@ -79,18 +79,27 @@ int main(void) {
 
    printf("\nCONTACT LIST\n");
    // Print contact list
-   // initialize currContact to headContact
+   // initialize current to headContact
    ContactNode* current = headNode;
-   // traverse nodes with currContact until == NULL
+   // traverse nodes with current until == NULL
    while(current != NULL)
    {
       // use PrintContactNode to print out each node
       PrintContactNode(current);
       printf("\n");
-      // get the contact next to currContact
+      // get the contact next to current
       current = GetNext(current);
+   }
+   
+   // free memory
+   current = headNode;
+   // traverse nodes with current until == NULL
+   while(current != NULL)
+   {
+      ContactNode* previous = current;
+      current = GetNext(current);
+      free(previous);
    }
 
    return 0;
 }
-
