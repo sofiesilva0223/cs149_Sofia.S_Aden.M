@@ -109,6 +109,7 @@ int main(int argc, char *argv[]) {
 
         child = fork();     //fork a child
         cmdnode = insert(command, child, count);
+        parse_argument(command, argument);
         clock_gettime(CLOCK_MONOTONIC, &cmdnode->start);
         forkexec(child,command,count,argument,cmdnode,filename_out,filename_err);
     }
@@ -146,6 +147,8 @@ int main(int argc, char *argv[]) {
                     printf("RESTARTING\n");
                     fflush(stdout);
                 }
+                parse_argument(cmdnode->command, argument);
+
                 clock_gettime(CLOCK_MONOTONIC, &cmdnode->start);
                 forkexec(rechild,cmdnode->command,cmdnode->index,argument,cmdnode,filename_out,filename_err);
             }
@@ -192,11 +195,10 @@ void forkexec(pid_t child, char *command, int count,
         printf("Error with fork for processing command %s.\n", command);
         exit(1);
     } else if (child == 0){   //child process
-        parse_argument(command, argument);
         open_files(getpid(), filename_out, filename_err);
-
         printf("Starting command %d: child %d pid of parent %d\n", count, getpid(), getppid());
         fflush(stdout);
+
         execvp(*argument, argument);
 
         //only happens if execvp fails
