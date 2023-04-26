@@ -31,10 +31,10 @@
  */
 typedef struct COMMAND_NODE{
     pid_t pid;
-    char *command;                  //ptr to the command
-    int index;
-    struct timespec start;
-    struct timespec finish;//index of the command
+    char *command;  //ptr to the command
+    int index;  //index of the command
+    struct timespec start;  //start time
+    struct timespec finish; //finish time
     struct  COMMAND_NODE *next;    //ptr to next COMMAND_NODE
 }COMMAND_NODE;
 
@@ -230,7 +230,7 @@ void open_files(pid_t child, char *filename_out, char *filename_err){
     close(2);
     dup2(file_desc2,2);
 }
-//Process fork child or verify if error in forking
+//Process fork child for executing the command using execvp or verify if error in forking
 void forkexec(pid_t child, char *command, int count,
               char ** argument, struct COMMAND_NODE *cmdnode, char *filename_out, char *filename_err){
     if (child < 0) {    //if there is an error with fork exit
