@@ -1,9 +1,16 @@
 /**
- * Description: Program reads command for each execution from stdin on one line of input and executes its parameters as specified on each line of stdin input. The proc_manager program will start up all the processes with the exec command and wait for them to complete, while each command will write its stdout and stderr to log files.
+ * Description: Program reads command for each execution from stdin and executes its parameters
+ * as specified in the input. The proc_manager program will process each command using a forked
+ * child process and run each command using execvp. It waits for each forked process to complete
+ * with process duration time of <= 2 sec, else it will restart the command in a new forked child
+ * process until the duration is 2 sec or less. Each command will be stored in a hash table with
+ * its index within the input, start time and finish time. Additionally, the command processing
+ * information will be logged into a file named with its respective child PID responsible for process
+ * it (PID.out or PID.err).
  * Author names: Aden Mengistie & Sofia Silva
  * Author emails: aden.mengistie@sjsu.edu, sofia.silva@sjsu.edu
  * Last modified date: 04/15/2023
- * Creation date: 04/24/2023
+ * Creation date: 04/25/2023
  **/
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,9 +25,6 @@
 #define HASHSIZE 101
 #define FILENAME_LENGTH 10
 
-//defining functions
-void parse_argument(char *, char **);
-void open_files(pid_t, char *, char *);
 /**
  * COMMAND_NODE struct is a hashtable of pointers to
  * command, child pid, and it's index.
@@ -34,31 +38,51 @@ typedef struct COMMAND_NODE{
     struct  COMMAND_NODE *next;    //ptr to next COMMAND_NODE
 }COMMAND_NODE;
 
+//defining functions
+void parse_argument(char *, char **);
+void open_files(pid_t, char *, char *);
+void forkexec(pid_t, char *, int, char **, struct COMMAND_NODE *, char *, char *);
+
+//hashtable declaration
 static struct COMMAND_NODE *hashCommand[HASHSIZE];
 
+//hashing function using child pid % hashsize
 unsigned hash(pid_t pid){
     return pid % HASHSIZE;
 }
 
+//returns the respective command for the given pid
 struct COMMAND_NODE *search(pid_t pid){
     struct COMMAND_NODE *command;
 
+    /*
+     * Find the hash index for the given pid and get the hash element.
+     * Verify if the element's pid matches the given pid, else traverse
+     * through the linked list until find the corresponding struct for the
+     * given pid or until the end of the linked list in which return NULL.
+     * */
     for(command = hashCommand[hash(pid)]; command != NULL; command = command->next){
         if(command->pid == pid)
             return command;
     }
     return NULL;
 }
+
+/*
+ * Insert the given command to its corresponding hash index for the given pid
+ * within the hashtable
+ * */
 struct COMMAND_NODE *insert(char *cmd, pid_t pid, int index){
     struct COMMAND_NODE *command;
     unsigned hashval;
 
+    //there is no struct in the hash table with the given pid
     if((command = search(pid)) == NULL){
         command = (struct COMMAND_NODE *) malloc(sizeof(struct COMMAND_NODE));
 
-        if(command == NULL)
+        if(command == NULL) //command memory not allocated properly
             return NULL;
-        if((command->command = strdup(cmd)) == NULL)
+        if((command->command = strdup(cmd)) == NULL) //strdup the cmd
             return NULL;
         command->pid = pid;
         command->index = index;
@@ -70,20 +94,34 @@ struct COMMAND_NODE *insert(char *cmd, pid_t pid, int index){
     }
     return command;
 }
-struct COMMAND_NODE *delete(pid_t pid){
-    struct COMMAND_NODE *command;
 
-    for(command = hashCommand[hash(pid)]; command != NULL; command = command->next){
-        struct COMMAND_NODE *temp = command->next;
+//Delete and free struct with the given pid from the hashtable
+void delete(pid_t pid){
+    struct COMMAND_NODE *command;
+    struct COMMAND_NODE *temp;
+    command = hashCommand[hash(pid)];
+
+    //struct with the given pid is the head of the hash index linked list
+    if(command->pid == pid){
+        temp = command;
+        hashCommand[hash(pid)] = command->next;
+        free(temp->command);
+        free(temp);
+        return;
+    }
+
+    //struct with the given pid is not the head of the hash index linked list
+    for(; command != NULL; command = command->next){
+        temp = command->next;
         if(temp != NULL && temp->pid == pid) {
-            command->next = command->next->next;
-            return temp;
+            command->next = temp->next;
+            free(temp->command);
+            free(temp);
+            return;
         }
     }
-    return NULL;
 }
 
-void forkexec(pid_t, char *, int, char **, struct COMMAND_NODE *, char *, char *);
 /**
  *
  */
@@ -93,26 +131,27 @@ int main(int argc, char *argv[]) {
     char **argument = (char **) malloc(COMMAND_LENGTH * sizeof(char *));    //set argument for execvp
     char *filename_out = (char *) malloc(FILENAME_LENGTH * sizeof(char));
     char *filename_err = (char *) malloc(FILENAME_LENGTH * sizeof(char));
-    clock_t t = clock();
     struct COMMAND_NODE *cmdnode;;
     pid_t child;
 
+    //malloc error
     if(command == NULL || argument == NULL || filename_out == NULL || filename_err == NULL)
         exit(1);
 
-    //traverse trough each file
+    //traverse trough each command input
     int count = 0;
     while (fgets(command, COMMAND_LENGTH, stdin)) {
+        //replace newline with null character
         if(command[strlen(command)-1] == '\n')
            command[strlen(command)-1] = 0;
         count++;
 
         child = fork();     //fork a child
-        cmdnode = insert(command, child, count);
-        parse_argument(command, argument);
-        clock_gettime(CLOCK_MONOTONIC, &cmdnode->start);
-        forkexec(child,command,count,argument,cmdnode,filename_out,filename_err);
+        cmdnode = insert(command, child, count);    //insert into hashtable
+        clock_gettime(CLOCK_MONOTONIC, &cmdnode->start);    //set start time
+        forkexec(child,command,count,argument,cmdnode,filename_out,filename_err); //call forkexec function
     }
+
     //parent process
     if(child > 0) {
         pid_t c;
@@ -121,15 +160,15 @@ int main(int argc, char *argv[]) {
 
         //loop until all child process are exited
         while ((c = wait(&status)) != -1) {
-            clock_gettime(CLOCK_MONOTONIC, &finish);
-            cmdnode = search(c);
-            cmdnode->finish = finish;
+            clock_gettime(CLOCK_MONOTONIC, &finish); //set finish time
+            cmdnode = search(c);    //retrieve struct of the completed process
+            cmdnode->finish = finish;   //set finish time for the given struct
             double duration = 0.0;
-            duration += (cmdnode->finish.tv_sec - cmdnode->start.tv_sec);
+            duration += (cmdnode->finish.tv_sec - cmdnode->start.tv_sec); //calculate runtime duration
 
             open_files(c, filename_out, filename_err);
-            printf("Finished child %d pid of parent %d\n", c, getpid());
-            printf("Started at %ld, Finished at %ld, runtime duration %f\n", cmdnode->start.tv_sec,cmdnode->finish.tv_sec, duration);
+            printf("Finished child %d pid of parent %d\n",c,getpid());
+            printf("Finished at %ld, runtime duration %f\n",cmdnode->finish.tv_sec,duration);
             fflush(stdout);
             //exitcode
             if (WIFEXITED(status))
@@ -138,24 +177,26 @@ int main(int argc, char *argv[]) {
             else if (WIFSIGNALED(status))
                 fprintf(stderr, "Killed with signal %d\n", WTERMSIG(status));
 
-            if(duration > 2){
-                pid_t rechild = fork();
-                cmdnode = insert(cmdnode->command, rechild, cmdnode->index);
-
-                if(rechild > 0){
+            //restart process if duration is greater than 2 sec
+            if (duration > 2) {
+                pid_t rechild = fork(); //fork to restart command
+                if (rechild > 0) {
+                    cmdnode = insert(cmdnode->command, rechild, cmdnode->index);
                     open_files(rechild, filename_out, filename_err);
                     printf("RESTARTING\n");
                     fflush(stdout);
                 }
-                parse_argument(cmdnode->command, argument);
-
-                clock_gettime(CLOCK_MONOTONIC, &cmdnode->start);
-                forkexec(rechild,cmdnode->command,cmdnode->index,argument,cmdnode,filename_out,filename_err);
-            }
-            else
+                clock_gettime(CLOCK_MONOTONIC, &cmdnode->start);    //set start time
+                //call forkexec function
+                forkexec(rechild, cmdnode->command, cmdnode->index, argument, cmdnode, filename_out, filename_err);
+                delete(c);  //delete and free
+            } else {
                 fprintf(stderr, "Spawning too fast\n");
+                delete(c);  //delete and free
+            }
         }
     }
+    //close and free
     close(1);
     close(2);
 
@@ -189,6 +230,7 @@ void open_files(pid_t child, char *filename_out, char *filename_err){
     close(2);
     dup2(file_desc2,2);
 }
+//Process fork child or verify if error in forking
 void forkexec(pid_t child, char *command, int count,
               char ** argument, struct COMMAND_NODE *cmdnode, char *filename_out, char *filename_err){
     if (child < 0) {    //if there is an error with fork exit
@@ -198,8 +240,8 @@ void forkexec(pid_t child, char *command, int count,
         open_files(getpid(), filename_out, filename_err);
         printf("Starting command %d: child %d pid of parent %d\n", count, getpid(), getppid());
         fflush(stdout);
-
-        execvp(*argument, argument);
+        parse_argument(command, argument);  //parse argument
+        execvp(*argument, argument);    //call execvp
 
         //only happens if execvp fails
         fprintf(stderr, "Invalid command: %s\n", command);
