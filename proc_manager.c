@@ -189,11 +189,10 @@ int main(int argc, char *argv[]) {
                 clock_gettime(CLOCK_MONOTONIC, &cmdnode->start);    //set start time
                 //call forkexec function
                 forkexec(rechild, cmdnode->command, cmdnode->index, argument, cmdnode, filename_out, filename_err);
-                delete(c);  //delete and free
-            } else {
+            } else
                 fprintf(stderr, "Spawning too fast\n");
-                delete(c);  //delete and free
-            }
+
+            delete(c);  //delete and free
         }
     }
     //close and free
