@@ -1,0 +1,30 @@
+/**
+ * Description: Log records the Rsync the filedir directory in the APUE source code.The directory was recursively copied with cp -r filedir/ filedir2/. The directories of filedir1 and filedir2 were compared to each other and navigated into filedir1 to perform 5 different file-system commands.
+ 
+ * Author names: Aden Mengistie & Sofia Silva
+ * Author emails: aden.mengistie@sjsu.edu, sofia.silva@sjsu.edu
+ * Last modified date: 05/01/2023
+ * Creation date: 05/01/2023
+ **/
+
+Q: What difference do you observe between the two directories?
+
+A: The differences between filedir1 and filedir2 is that filedir1 has an older modifcation date while filedir2 has the most recent date (today, May 1st at the time the rsync was done) compared to filedir1 which has the older time modified.
+ 
+ 
+ 1001  rsync -arv filedir/ filedir1/
+ 1002  cp -r filedir/ filedir2/
+ 1003  ls -latr filedir1/
+ 1004  ls -latr filedir2/
+ 1005  diff -q filedir1 filedir2
+ 1006  cd filedir1
+ 1007  ls -i
+ 1008  df
+ 1009  du -sh
+ 1010  stat zap.c
+ 1011  locate -c zap
+ 1012  rm zap.c
+ 1013  cat zap.c
+ 1014  history > w13.log
+ 
+ 
