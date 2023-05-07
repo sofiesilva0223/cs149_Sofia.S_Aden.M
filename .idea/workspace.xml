@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakePresetLoader">{
+  &quot;useNewFormat&quot;: true
+}</component>
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="68002c7f-f7d3-43d8-ab11-f795540dfac2" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2023" />
+    <option name="minorVersion" value="1.1" />
+  </component>
+  <component name="ProjectId" id="2OkcZiXd6TZ84a0teaaEEfnjeY7" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="C/C++ File.proc_manager.c">
+    <configuration name="cs149_Sofia_S_Aden_M" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cs149_Sofia_S_Aden_M" TARGET_NAME="cs149_Sofia_S_Aden_M" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="cs149_Sofia_S_Aden_M" RUN_TARGET_NAME="cs149_Sofia_S_Aden_M">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="proc_manager.c" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cs149_Sofia.S_Aden.M" TARGET_NAME="countnames_threaded.c" CONFIG_NAME="proc_manager.c">
+      <option name="sourceFile" value="countnames_threaded.c" />
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="C/C++ File.proc_manager.c" />
+      <item itemvalue="CMake Application.cs149_Sofia_S_Aden_M" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="68002c7f-f7d3-43d8-ab11-f795540dfac2" name="Changes" comment="" />
+      <created>1682108100773</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1682108100773</updated>
+      <workItem from="1682108158593" duration="81000" />
+      <workItem from="1682108748885" duration="1474000" />
+      <workItem from="1682110748905" duration="86000" />
+      <workItem from="1682111068236" duration="3769000" />
+      <workItem from="1682126375580" duration="971000" />
+      <workItem from="1682128406478" duration="1030000" />
+      <workItem from="1682130683380" duration="1176000" />
+      <workItem from="1682281344921" duration="279000" />
+      <workItem from="1682281686041" duration="485000" />
+      <workItem from="1682282532034" duration="1599000" />
+      <workItem from="1682284513229" duration="1745000" />
+      <workItem from="1682286590632" duration="34000" />
+      <workItem from="1682286954241" duration="27000" />
+      <workItem from="1682337334365" duration="736000" />
+      <workItem from="1682346846094" duration="1348000" />
+      <workItem from="1682348923432" duration="596000" />
+      <workItem from="1682349749474" duration="23000" />
+      <workItem from="1682349971861" duration="640000" />
+      <workItem from="1682351387715" duration="2305000" />
+      <workItem from="1682354588894" duration="587000" />
+      <workItem from="1682357691020" duration="1084000" />
+      <workItem from="1682359212823" duration="2346000" />
+      <workItem from="1682464239166" duration="627000" />
+      <workItem from="1682474833493" duration="11000" />
+      <workItem from="1682475739939" duration="496000" />
+      <workItem from="1682476647895" duration="577000" />
+      <workItem from="1682477492034" duration="13000" />
+      <workItem from="1682478102697" duration="927000" />
+      <workItem from="1682479961481" duration="97000" />
+      <workItem from="1682480312436" duration="21000" />
+      <workItem from="1682480528811" duration="407000" />
+      <workItem from="1682481194808" duration="220000" />
+      <workItem from="1682481768270" duration="19000" />
+      <workItem from="1682482680761" duration="452000" />
+      <workItem from="1682483734073" duration="163000" />
+      <workItem from="1682536250175" duration="75000" />
+      <workItem from="1682537482039" duration="435000" />
+      <workItem from="1683421915533" duration="770000" />
+      <workItem from="1683424311361" duration="2755000" />
+      <workItem from="1683427388040" duration="756000" />
+      <workItem from="1683430673342" duration="335000" />
+      <workItem from="1683436202667" duration="2069000" />
+      <workItem from="1683468766788" duration="4632000" />
+      <workItem from="1683478321102" duration="905000" />
+      <workItem from="1683479679562" duration="879000" />
+      <workItem from="1683480791235" duration="1313000" />
+      <workItem from="1683483309513" duration="93000" />
+      <workItem from="1683483540240" duration="91000" />
+      <workItem from="1683483733130" duration="53000" />
+      <workItem from="1683483896181" duration="379000" />
+      <workItem from="1683484345135" duration="604000" />
+      <workItem from="1683485096501" duration="239000" />
+      <workItem from="1683485399802" duration="72000" />
+      <workItem from="1683485724513" duration="266000" />
+      <workItem from="1683486356053" duration="487000" />
+      <workItem from="1683487077367" duration="379000" />
+      <workItem from="1683487555273" duration="56000" />
+      <workItem from="1683487779246" duration="947000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
