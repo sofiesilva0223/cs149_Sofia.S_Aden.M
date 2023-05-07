@@ -23,7 +23,6 @@ pthread_mutex_t lock1 = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t lock2 = PTHREAD_MUTEX_INITIALIZER;
 pthread_t tid1, tid2;
 int logindex = 0;
-int *logip = &logindex;
 
 //function declarations
 void *thread_runner(void *);
@@ -168,6 +167,7 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
+    printf("================================ Log Messages ================================\n");
     printf("Create first thread\n");
     pthread_create(&tid1,NULL,thread_runner,argv[1]);
 
@@ -181,6 +181,8 @@ int main(int argc, char *argv[]) {
     //printf("Wait for second thread to exit\n");
     pthread_join(tid2,NULL);
     printf("Second thread exited\n");
+
+    printf("\n================================ Name Counts ================================\n");
 
     display(); //call display
     clear();

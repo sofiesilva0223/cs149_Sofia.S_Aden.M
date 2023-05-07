@@ -17,7 +17,6 @@
   <component name="ChangeListManager">
     <list default="true" id="68002c7f-f7d3-43d8-ab11-f795540dfac2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/countnames_threaded" beforeDir="false" afterPath="$PROJECT_DIR$/countnames_threaded" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/countnames_threaded.c" beforeDir="false" afterPath="$PROJECT_DIR$/countnames_threaded.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -145,6 +144,7 @@
       <workItem from="1683487555273" duration="56000" />
       <workItem from="1683487779246" duration="947000" />
       <workItem from="1683489508691" duration="1200000" />
+      <workItem from="1683497697737" duration="512000" />
     </task>
     <servers />
   </component>
