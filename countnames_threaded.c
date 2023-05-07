@@ -131,10 +131,10 @@ void delete(char *s){
 void clear(){
     struct unique_name *value;
     struct unique_name *temp;
-    int index;
 
     pthread_mutex_lock(&lock);
-    for(index = 0, value = names[index]; index < HASHSIZE; index++){
+    for(int index = 0; index < HASHSIZE; index++){
+        value = names[index];
         while(value != NULL) {
             temp = value;
             value = value->next;
@@ -148,11 +148,11 @@ void clear(){
 // This function displays each unique name with its occurrence
 void display() {
     struct unique_name *value;
-    int index;
 
     pthread_mutex_lock(&lock);
-    for(index = 0, value = names[index]; index < HASHSIZE; index++){
-        while(value != NULL) {
+    for(int index = 0; index < HASHSIZE; index++){
+        value = names[index];
+        while(value != NULL){
             printf("%s: %d\n", value->name, value->count);
             value = value->next;
         }
@@ -169,18 +169,18 @@ int main(int argc, char *argv[]) {
     }
 
     printf("Create first thread\n");
-    pthread_create(&tid1,NULL,thread_runner(argv[1]),NULL);
+    pthread_create(&tid1,NULL,thread_runner,argv[1]);
 
     printf("create second thread\n");
-    pthread_create(&tid2,NULL,thread_runner(argv[2]),NULL);
+    pthread_create(&tid2,NULL,thread_runner,argv[2]);
 
-    printf("Wait for first thread to exit\n");
+    //printf("Wait for first thread to exit\n");
     pthread_join(tid1,NULL);
-    printf("First thread exited");
+    printf("First thread exited\n");
 
-    printf("Wait for second thread to exit\n");
+    //printf("Wait for second thread to exit\n");
     pthread_join(tid2,NULL);
-    printf("Second thread exited");
+    printf("Second thread exited\n");
 
     display(); //call display
     clear();
