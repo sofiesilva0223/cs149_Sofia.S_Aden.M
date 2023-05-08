@@ -1,10 +1,12 @@
 /**
- * Description: Determine each unique name and its quality within multiple file
- * using a multiple process to process the data and use pipe to merge the content.
+ * Description: Program has two threads where thread one reads names from one file and updates 
+ * the count until it reaches the end of the file. Thread two does the same action as thread one.  
+ * Each thread prints out a log message to stdout when it opens a new file for reading. 
+ * After both threads are done read, the process will print out all contents of the counts of names.
  * Author names: Aden Mengistie & Sofia Silva
  * Author emails: aden.mengistie@sjsu.edu, sofia.silva@sjsu.edu
- * Last modified date: 02/27/2023
- * Creation date: 03/04/2023
+ * Last modified date: 05/07/2023
+ * Creation date: 05/07/2023
  **/
 
 #include <stdio.h>
@@ -18,9 +20,11 @@
 #define NAME_LENGTH 30
 
 //data declaration
-pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t lock1 = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t lock2 = PTHREAD_MUTEX_INITIALIZER;
+//thread mutex lock for access to the log index
+pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER; 
+//mutex lock for mutual exclusion
+pthread_mutex_t lock1 = PTHREAD_MUTEX_INITIALIZER; 
+pthread_mutex_t lock2 = PTHREAD_MUTEX_INITIALIZER; 
 pthread_t tid1, tid2;
 int logindex = 0;
 
@@ -228,7 +232,7 @@ void *thread_runner(void *x){
     }
     pthread_mutex_unlock(&lock2);
 
-    FILE *fp = fopen(filename, "r");    //open file
+    FILE *fp = fopen(filename, "r"); //open file
     //verify file exist
     if (fp == NULL) {
         printf("Unable to open %s.\n", filename);
